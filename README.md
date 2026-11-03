@@ -12,6 +12,14 @@
 
 FutureTide is an interactive 3D simulator of the Southern Ocean. Pick a fossil-fuel pathway and a future year, and the underwater world changes: sea ice thins, krill swarms shrink, predators disappear, and krill drift outside protected waters.
 
+The app has three tabs:
+
+- **Simulation** (default): sail a research ship around a 3D globe to CCAMLR krill grounds, send a diver under the ice, turn the forcing clock from 2025 to 2100, compare two futures side by side, and open a Grok-written decision brief.
+- **Explore**: one pathway and year in a 3D scene, with stats and a plain-language explanation.
+- **Compare**: two scenarios side by side, with a difference table and a stress trajectory chart.
+
+> 🙌 The **Simulation** (globe and dive scenes, HUD, and station model) was built by [@sohitpatro123](https://github.com/sohitpatro123) in [sohitpatro123/futuretide](https://github.com/sohitpatro123/futuretide) and integrated here.
+
 It was built in 90 minutes for the **Georgia Tech Big Data Big Impact (BDBI) Grokathon** using Grok Bot and Cursor.
 
 ## Connection to BDBI FishCast
@@ -32,6 +40,8 @@ Each pathway is available for **2035, 2050, and 2100**, plus a present-day basel
 
 ## Features
 
+- **Globe voyage and dive simulation**: steer with W A S D or the on-screen helm, drop waypoints on a polar chart, visit six CCAMLR krill grounds, then dive to see krill, salps, fish, ice, and the seafloor change with the forcing clock
+- **Grok decision brief** per station, pathway, and year, built from the Grok-written text in `data/scenarios.json` (no API key or backend needed)
 - **3D Southern Ocean scene**, with a sea-ice ceiling, glowing krill swarms, penguins and whales, water clarity, and a glowing MPA boundary, all driven by the scenario data
 - **Pathway and year selectors** with smooth transitions between futures
 - **Stats panel** showing sea temperature, sea ice, chlorophyll, krill density, hotspot probability, krill outside MPAs, predator health, and ecosystem stress, with changes compared with today
@@ -55,6 +65,7 @@ Each pathway is available for **2035, 2050, and 2100**, plus a present-day basel
 
 - [Vite](https://vitejs.dev/), React, and TypeScript
 - [three.js](https://threejs.org/), [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber), and [@react-three/drei](https://github.com/pmndrs/drei)
+- Simulation UI: [Tailwind CSS v4](https://tailwindcss.com/), [zustand](https://github.com/pmndrs/zustand), [Recharts](https://recharts.org/), and [lucide-react](https://lucide.dev/)
 - Static site with no backend. Scenario data ships as JSON.
 
 ## Getting started
@@ -73,13 +84,18 @@ npm run build    # production build
 | --- | --- | --- |
 | `data/` | Scenario data (`scenarios.json`), types (`schema.ts`), generator (`gen.py`) | Data lead |
 | `src/data/` | Typed loader and `getScenario(pathway, year)` | Data lead |
-| `src/scene/` | 3D Southern Ocean world | 3D lead |
+| `src/Root.tsx` | Top-level tabs (Simulation, Explore, Compare) and the always-on disclaimer strip | — |
+| `src/components/futuretide/` | Simulation: `FutureTide.tsx` (shell), `GlobeScene.tsx` (ship and globe), `DiveScene.tsx` (underwater dive), `Hud.tsx` (panels, forcing clock, chart, brief) | [@sohitpatro123](https://github.com/sohitpatro123) |
+| `src/lib/futuretide/` | Simulation model (`model.ts`, now driven by `data/scenarios.json`), state (`store.ts`), input, pose, and the static Grok brief (`briefing.ts`) | [@sohitpatro123](https://github.com/sohitpatro123) |
+| `src/simulation.css` | Tailwind v4 theme for the simulation | [@sohitpatro123](https://github.com/sohitpatro123) |
+| `public/textures/` | Earth texture for the globe | [@sohitpatro123](https://github.com/sohitpatro123) |
+| `src/scene/` | 3D Southern Ocean world (Explore and Compare) | 3D lead |
 | `src/ui/` | Selectors, stats panel, explanations, disclaimer | UI lead |
 | `src/compare/` | Side-by-side comparison mode | UI lead |
 
 ## Data and disclaimer
 
-All scenario values are **illustrative estimates**. We shaped them to match published magnitudes from IPCC AR6 and the krill literature (for example, Atkinson et al. 2019). They are **not** output from FishCast's models, and FishCast's own README notes that no climate-only model shows predictive skill yet. Antarctic sea ice projections are especially uncertain, so the 2050 and 2100 scenarios are marked low confidence. The share of krill outside MPAs is illustrative.
+All scenario values are **illustrative estimates**. We shaped them to match published magnitudes from IPCC AR6 and the krill literature (for example, Atkinson et al. 2019). They are **not** output from FishCast's models, and FishCast's own README notes that no climate-only model shows predictive skill yet. Antarctic sea ice projections are especially uncertain, so the 2050 and 2100 scenarios are marked low confidence. The share of krill outside MPAs is illustrative. In the Simulation, station-level readings are derived from the same scenario values with illustrative per-station weights, and sea-ice extent is converted to "ice days lost" at about 1.5 days per 1% of extent.
 
 Field definitions and the SSP mapping are documented in [`data/README.md`](data/README.md).
 
