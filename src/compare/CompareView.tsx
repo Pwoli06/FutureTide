@@ -179,7 +179,7 @@ const PATHWAY_LABELS: Record<PathwayChoice, string> = {
 const W = 380;
 const H = 190;
 const PL = 34;
-const PR = 10;
+const PR = 20;
 const PT = 14;
 const PB = 26;
 const xFor = (year: number) => PL + ((year - 2025) / 75) * (W - PL - PR);
