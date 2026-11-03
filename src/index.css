@@ -1,0 +1,7 @@
+/* Layer order: Tailwind preflight < classic app styles < Tailwind utilities,
+   so the classic Explore/Compare CSS keeps working and never overrides the simulation's utilities. */
+@layer theme, base, classic, components, utilities;
+
+@import "./simulation.css";
+@import "./ui/styles.css" layer(classic);
+@import "./shell.css" layer(classic);

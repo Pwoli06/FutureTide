@@ -1,0 +1,30 @@
+:root { --shell-h: 40px; }
+#root { display: flex; flex-direction: column; }
+.shell-bar {
+  height: var(--shell-h);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  background: #050d12;
+  border-bottom: 1px solid rgba(176, 220, 236, 0.16);
+  font-size: 13px;
+  position: relative;
+  z-index: 50;
+}
+.shell-tabs { display: flex; gap: 4px; }
+.shell-tabs button {
+  border: 1px solid rgba(176, 220, 236, 0.2);
+  background: transparent;
+  color: #cfe3ea;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 13px;
+}
+.shell-tabs button[aria-selected="true"] { background: #3dbebf; color: #042426; border-color: #3dbebf; font-weight: 600; }
+.shell-note { margin: 0 0 0 auto; color: #e4c36a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.shell-note span { color: #8eabbb; }
+.shell-body { flex: 1; min-height: 0; position: relative; }
+.shell-body > .app { height: 100%; }
+.shell-loading { display: grid; place-items: center; height: 100%; color: #8eabbb; }

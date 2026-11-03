@@ -11,16 +11,16 @@ import {
   StatsPanel,
   TopBar,
 } from "./ui";
-import "./ui/styles.css";
 
-export default function App() {
-  const [mode, setMode] = useState<"explore" | "compare">("explore");
+export type ClassicMode = "explore" | "compare";
+
+export default function App({ mode, onMode }: { mode: ClassicMode; onMode: (mode: ClassicMode) => void }) {
   const [selection, setSelection] = useState<Selection>({ pathway: "increasing", year: 2100 });
   const scenario = getScenario(selection.pathway, selection.year);
 
   return (
     <div className="app">
-      <TopBar mode={mode} onMode={setMode} />
+      <TopBar mode={mode} onMode={onMode} />
       <DisclaimerBanner />
       {mode === "explore" ? (
         <main className="explore">
